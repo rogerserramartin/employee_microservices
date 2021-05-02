@@ -2,6 +2,7 @@ package com.example.demo.employee;
 
 // this class will have all of the resources for our API
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,7 @@ public class EmployeeController {
     // this follows our design pattern using layers
     private final EmployeeService employeeService;
 
+    @Autowired //Above EmployeeService will be injected into the constructor below. Works as an auto-instantiation
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
