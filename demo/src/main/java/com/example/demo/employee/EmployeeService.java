@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeService {
@@ -20,5 +21,13 @@ public class EmployeeService {
 
     public List<Employee> getEmployees() {
         return employeeRepository.findAll();
+    }
+
+    public void addNewEmployee(Employee employee) {
+        Optional<Employee> employeeOptional = employeeRepository.findEmployeeByEmail(employee.getEmail());
+        if(employeeOptional.isPresent()){
+            throw new IllegalStateException("this email is already taken");
+        }
+        employeeRepository.save(employee);
     }
 }
