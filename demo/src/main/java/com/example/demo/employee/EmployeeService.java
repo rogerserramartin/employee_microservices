@@ -3,10 +3,12 @@ package com.example.demo.employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -37,5 +39,26 @@ public class EmployeeService {
             throw new IllegalStateException("Employee with id " + employeeId + " does not exist!");
         }
         employeeRepository.deleteById(employeeId);
+    }
+
+    @Transactional
+    public void updateEmployee(Long employeeId,
+                               String name,
+                               String email) {
+        Employee employee = employeeRepository.findById(employeeId).
+                orElseThrow(() -> new IllegalStateException("Employee with id" + employeeId + " does not exist!"));
+
+        if (name != null &&
+                name.length() > 0 &&
+                !Objects.equals(employee.getName(), name)) {
+                    employee.setName(name);
+                    }
+
+        if (email != null &&
+                email.length() > 0 &&
+                !Objects.equals(employee.getEmail(), email)) {
+            employee.setEmail(email);
+        }
+
     }
 }
